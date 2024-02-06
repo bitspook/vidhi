@@ -63,6 +63,7 @@
 
    `((body :font-size 16px
            :font-family (var --font-text) sans-serif
+           :line-height (var --line-sm)
            :color (var --color-grey-800))
 
      ((:or h1 h2 h3 h4 h5 h6)
@@ -75,6 +76,9 @@
      ((:or blockquote dl figure form ol p pre table ul)
       :margin-bottom (var --scale-2)
       :overflow auto)
+
+     (figcaption :font-size (var --scale-00)
+                 :color (var --color-grey-400))
 
      ((:or td th)
       :padding 12px 15px
