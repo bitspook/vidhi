@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "vidhi"
+version = "0.1.0"
+description = "Methodically learn German"
+authors = ["Your Name <you@example.com>"]
+license = "GPLv3"
+readme = "readme.org"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+spacy = {extras = ["apple"], version = "^3.7.2"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

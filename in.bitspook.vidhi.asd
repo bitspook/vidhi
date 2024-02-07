@@ -4,25 +4,30 @@
   :depends-on (:serapeum
                :dexador
                :clss :plump
+               :py4cl
                :in.bitspook.cl-ownpress
                :in.bitspook.website)
   :components ((:module "src"
-                :components ((:file "package")
-                             (:file "nachrichtenleicht")
+                :components
+                ((:file "package")
+                 (:file "nachrichtenleicht")
 
-                             (:module "lass"
-                              :components ((:file "modern-normalize")
-                                           (:file "pollen")
-                                           (:file "global-lass")))
+                 (:module "nlp"
+                  :components ((:file "package")))
 
-                             (:module "widgets"
-                              :components ((:file "simple-exercise")
-                                           (:file "demo-page")
-                                           (:file "reader-page")
-                                           (:file "word-learner")
-                                           (:file "article")))
+                 (:module "lass"
+                  :components ((:file "modern-normalize")
+                               (:file "pollen")
+                               (:file "global-lass")))
 
-                             (:module "publisher"
-                              :components ((:file "page")
-                                           (:file "assisted-reader"))))))
+                 (:module "widgets"
+                  :components ((:file "simple-exercise")
+                               (:file "demo-page")
+                               (:file "reader-page")
+                               (:file "word-learner")
+                               (:file "article")))
+
+                 (:module "publisher"
+                  :components ((:file "page")
+                               (:file "assisted-reader"))))))
   :description "Help me methodically learn German.")

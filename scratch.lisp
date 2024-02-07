@@ -32,13 +32,10 @@
 ;; setup py4cl to work with poetry env
 (setf py4cl:*python-command* "/Users/charanjit.singh/Library/Caches/pypoetry/virtualenvs/vidhi-91ierX8q-py3.11/bin/python")
 
-(py4cl:import-module "spacy" :as "sp")
+;; Need to stop py4cl's python process if we make changes to vidhi python package
+(py4cl:python-stop)
 
-(py4cl:import-module "vidhi" :as "vidhipy")
 
-(defparameter *nlp* (sp:load "de_dep_news_trf"))
-
-(py4cl:python-exec "vidhipy.nlp(\"Hallo Meine liebe\")")
 
 ;; quick hack to auto-build
 ;; elisp
