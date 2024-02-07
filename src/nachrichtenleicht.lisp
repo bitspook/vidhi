@@ -1,4 +1,4 @@
-(in-package 'in.bitspook.vidhi)
+(in-package #:in.bitspook.vidhi)
 
 (defclass nachtrichtenleicht-article ()
   ((title

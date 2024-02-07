@@ -10,8 +10,6 @@
 
 (defparameter *article* (fetch-nacht-article "https://www.nachrichtenleicht.de/streiks-in-deutschland-106.html"))
 
-(defparameter *resp* (dex:get "https://www.nachrichtenleicht.de/streiks-in-deutschland-106.html"))
-
 (defun build ()
   (let* ((www (path-join *base-dir* "docs/"))
          (static (path-join *base-dir* "src/static/"))
@@ -22,18 +20,11 @@
 
     (publish asset-pub :content static)
 
-    (let* ((title "Vidhi")
-           (page-pub (make 'page-publisher
-                           :dest www
-                           :asset-pub asset-pub))
-           (root (make 'reader-page-w
-                       :title (nacht-article-title *article*)
-                       :description (nacht-article-description *article*)
-                       :content (nacht-article-content *article*)
-                       )))
-      (publish page-pub
-               :title title
-               :root-widget root))
+    (let* ((assisted-reader-pub
+             (make 'assisted-reader-publisher
+                   :dest www
+                   :asset-pub asset-pub)))
+      (publish assisted-reader-pub :article *article*))
     t))
 
 (build)

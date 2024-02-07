@@ -18,8 +18,11 @@
                              (:module "widgets"
                               :components ((:file "simple-exercise")
                                            (:file "demo-page")
-                                           (:file "reader-page")))
+                                           (:file "reader-page")
+                                           (:file "word-learner")
+                                           (:file "article")))
 
                              (:module "publisher"
-                              :components ((:file "page"))))))
+                              :components ((:file "page")
+                                           (:file "assisted-reader"))))))
   :description "Help me methodically learn German.")
