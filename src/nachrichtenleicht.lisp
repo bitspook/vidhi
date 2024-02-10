@@ -71,3 +71,25 @@
           :featured-image (extract-featured-image article)
           :content (extract-content article)
           :new-words (extract-new-words article))))
+
+(defun nach-article-word-freq (article)
+  "Get word-frequency for all words from ARTICLE.
+Returns (frequency, (WORDs))."
+  (declare (nachtrichtenleicht-article article))
+
+  (with-slots (title description featured-image content new-words) article
+    (let* ((all-text (str:join
+                      #\NewLine
+                      (list
+                       title
+                       description
+                       (second featured-image)
+                       (str:join #\NewLine content)
+                       (str:join #\NewLine (mapcar #'second new-words))))))
+      (sort
+       (remove-if-not
+        (op (some #'word-alpha-p (cddr _)))
+        (hash-table-alist (nlp-lemma-freq all-text)))
+       (op (> (second _) (second _)))))))
+
+

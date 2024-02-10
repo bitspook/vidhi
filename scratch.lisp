@@ -35,7 +35,7 @@
 ;; Need to stop py4cl's python process if we make changes to vidhi python package
 (py4cl:python-stop)
 
-
+(defparameter *freq* (nach-article-word-freq *article*))
 
 ;; quick hack to auto-build
 ;; elisp

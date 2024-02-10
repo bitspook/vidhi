@@ -9,11 +9,12 @@
                :in.bitspook.website)
   :components ((:module "src"
                 :components
-                ((:file "package")
-                 (:file "nachrichtenleicht")
-
-                 (:module "nlp"
+                ((:module "nlp"
                   :components ((:file "package")))
+
+                 (:file "package")
+
+                 (:file "nachrichtenleicht")
 
                  (:module "lass"
                   :components ((:file "modern-normalize")

@@ -41,5 +41,25 @@
                :pos (@ _1 "pos")
                :tag (@ _1 "tag")
                :dep (@ _1 "dep")
-               :alpha-p (@ _1 "alpha-p")))
+               :alpha-p (@ _1 "is_alpha")))
      words)))
+
+(export-always 'nlp-lemma-freq)
+(defun nlp-lemma-freq (text)
+  "Get a frequency breakdown of all WORDs in TEXT.
+Returns a hash-map of lemma->(freq . (WORD))."
+  (let* ((all-words (nlp-words text)))
+    (loop :with bag := (make-hash-table :test #'equal)
+          :for word :in all-words
+          :for lemma := (word-lemma word)
+          :for freq := (href-default
+                        (cons 0 nil)
+                        bag lemma)
+          :do (setf (@ bag lemma)
+                    (cons (1+ (car freq))
+                          (adjoin word (cdr freq)
+                                  :test (op (equal (str:downcase (word-text _))
+                                                   (str:downcase (word-text _)))))))
+          :finally (return bag))))
+
+

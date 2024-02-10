@@ -1,4 +1,4 @@
-(uiop:define-package #:in.bitspook.vidhi
+(defpackage #:in.bitspook.vidhi
   (:use #:cl #:serapeum/bundle)
   (:import-from #:in.bitspook.cl-ownpress/publisher
    :publish :render
@@ -9,6 +9,8 @@
    :provide-all)
   (:import-from #:in.bitspook.website
    :denote-provider)
-  (:import-from #:spinneret :with-html))
+  (:import-from #:spinneret :with-html)
+  (:import-from #:in.bitspook.vidhi/nlp :nlp-lemma-freq
+                :word-alpha-p :word-lemma))
 
 (in-package #:in.bitspook.vidhi)
