@@ -74,7 +74,8 @@
 
 (defun nach-article-word-freq (article)
   "Get word-frequency for all words from ARTICLE.
-Returns (frequency, (WORDs))."
+Returns (lemma . frequency . (WORD))
+lemma is a string, frequency is number."
   (declare (nachtrichtenleicht-article article))
 
   (with-slots (title description featured-image content new-words) article

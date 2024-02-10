@@ -8,7 +8,7 @@
                    :padding 0 (var --size-4))
 
        (.menu (ul :list-style-type none
-                  :margin (var --scale-4) 0
+                  :margin (var --scale-4) auto
                   :padding 0
                   :border 1px solid (var --color-grey-200)
                   :width fit-content
