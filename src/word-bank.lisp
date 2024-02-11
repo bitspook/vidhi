@@ -13,13 +13,18 @@ translation. Word-bank can also be called a (albeit limited) knowledge-base or d
     (format out "~a (~{~a~^, ~})" (bank-word-text bw) (bank-word-translations bw))))
 
 (defun load-word-bank (filepath)
-  "Load word bank from a json file at FILEPATH."
-  (let ((raw-words (yason:parse (str:from-file filepath))))
-    (mapcar
-     (lambda (wtable)
-       (make 'bank-word
-             :text (@ wtable "text")
-             :type (@ wtable "type")
-             :translations (@ wtable "translations")
-             :frequency (@ wtable "frequency")))
-     raw-words)))
+  "Load word bank from a json file at FILEPATH.
+A word-bank is a hashtable of shape (text . (BANK_WORD)). Each entry in word-bank represent a single
+word. One word can have multiple translations (represented by BANK-WORD), depending on (BANK-WORD-TYPE)."
+  (let ((raw-bank (yason:parse (str:from-file filepath)))
+        (bank (dict)))
+    (do-hash-table (key val raw-bank bank)
+      (setf (@ bank key)
+            (maphash-return
+             (lambda (type val2)
+               (make 'bank-word
+                     :text key
+                     :type type
+                     :translations (@ val2 "translations")
+                     :frequency (@ val2 "frequency")))
+             val)))))
