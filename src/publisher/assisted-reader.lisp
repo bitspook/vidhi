@@ -2,7 +2,9 @@
 
 (defclass assisted-reader-publisher (html-publisher)
   ((asset-pub :initform (error "Missing argument :asset-pub")
-              :initarg :asset-pub))
+              :initarg :asset-pub)
+   (word-bank :initform (error "Missing argument :word-bank")
+              :initarg :word-bank))
   (:documentation "Publish independent page"))
 
 (defun page-builder (title &key)

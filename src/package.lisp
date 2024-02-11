@@ -12,6 +12,7 @@
   (:import-from #:spinneret :with-html)
   (:import-from #:in.bitspook.vidhi/nlp :nlp-lemma-freq
                 :word-alpha-p :word-lemma)
+  (:import-from #:parenscript :ps)
   (:local-nicknames (:yason :yason)))
 
 (in-package #:in.bitspook.vidhi)

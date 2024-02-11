@@ -5,6 +5,7 @@
                :dexador :yason
                :clss :plump
                :py4cl
+               :parenscript
                :in.bitspook.cl-ownpress
                :in.bitspook.website)
   :components ((:module "src"

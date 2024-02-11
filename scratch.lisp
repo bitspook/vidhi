@@ -10,6 +10,9 @@
 
 (defparameter *article* (fetch-nacht-article "https://www.nachrichtenleicht.de/streiks-in-deutschland-106.html"))
 
+(defparameter *word-bank*
+  (load-word-bank (base-path-join *base-dir* "src/static/data/frequent-words.json")))
+
 (defun build ()
   (let* ((www (path-join *base-dir* "docs/"))
          (static (path-join *base-dir* "src/static/"))
@@ -23,21 +26,18 @@
     (let* ((assisted-reader-pub
              (make 'assisted-reader-publisher
                    :dest www
+                   :word-bank *word-bank*
                    :asset-pub asset-pub)))
       (publish assisted-reader-pub :article *article*))
     t))
 
 (build)
-
 ;; setup py4cl to work with poetry env
+
 (setf py4cl:*python-command* "/Users/charanjit.singh/Library/Caches/pypoetry/virtualenvs/vidhi-91ierX8q-py3.11/bin/python")
-
 ;; Need to stop py4cl's python process if we make changes to vidhi python package
+
 (py4cl:python-stop)
-
-
-(defparameter *word-bank*
-  (load-word-bank (base-path-join *base-dir* "src/static/data/frequent-words.json")))
 
 ;; quick hack to auto-build
 ;; elisp
