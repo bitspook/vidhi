@@ -2,7 +2,7 @@
   :author "Charanjit Singh"
   :license "AGPL-3.0-only"
   :depends-on (:serapeum
-               :dexador
+               :dexador :yason
                :clss :plump
                :py4cl
                :in.bitspook.cl-ownpress

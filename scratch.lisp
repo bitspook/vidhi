@@ -35,7 +35,9 @@
 ;; Need to stop py4cl's python process if we make changes to vidhi python package
 (py4cl:python-stop)
 
-(defparameter *freq* (nach-article-word-freq *article*))
+
+(defparameter *word-bank*
+  (load-word-bank (base-path-join *base-dir* "src/static/data/frequent-words.json")))
 
 ;; quick hack to auto-build
 ;; elisp
