@@ -1,6 +1,6 @@
 (in-package #:in.bitspook.vidhi)
 
-(defwidget word-learner-w (title word-freq)
+(defwidget word-learner-w (title word-freq word-bank)
     (tagged-lass
      base-lass
      `((.content :margin (var --scale-6) 0
@@ -76,11 +76,7 @@
                          (.subtext :font-size (var --size-4)
                                    :color (var --color-grey-400))
 
-                         (footer :display flex
-                                 :align-items baseline
-                                 :margin (var --scale-4) 0 (var --scale-2) 0
-
-                                 (.subtext :margin-right (var --size-2))
+                         (footer :margin (var --scale-4) 0 (var --scale-2) 0
                                  ((:and .subtext :last-child) :margin-left (var --size-2))))))
 
   (:article.content
@@ -92,41 +88,39 @@
      (:raw
       (ps
         (defun show-word-modal (el)
-          (let ((word (ps:chain el dataset word))
-                (modal (ps:chain document (query-selector ".full-page-modal[data-word=\"der\"]"))))
-            (ps:chain console (log modal))
+          (let* ((w-text (ps:chain el dataset word))
+                 (modal (ps:chain document (query-selector (+ ".full-page-modal[data-word=\"" w-text "\"]")))))
             (setf (ps:chain modal style display) "flex")))
 
         (defun close-modal (el)
           (setf (ps:chain el style display) "none")))))
 
     (:section.used-words
-     (loop :for (word freq) :in word-freq
+     (loop :for (w-text freq . nlp-words) :in word-freq
+           :for bank-words := (@ word-bank w-text)
            :do (:div.used-word-btn :onclick (:raw (ps (show-word-modal this)))
-                :data-word word
-                (:div.word word)
-                (:div.subtext "used" freq "times."))
+                                   :data-word w-text
+                                   (:div.word w-text)
+                                   (:div.subtext "used" freq "times."))
 
-               (:article.full-page-modal
-                :onclick "closeModal(this)"
-                :data-word word
+               (when bank-words
+                 (:article.full-page-modal
+                  :onclick "closeModal(this)"
+                  :data-word w-text
 
-                (:header
-                 (:h2.title "Der")
-                 (:span.subtext "used 2 times")
-                 (:span.icon-close))
-                (:section.translations
-                 (:div.labeled-quote
-                  (:label "Pronoun")
-                  (:blockquote "who")
-                  (:blockquote "which")
-                  (:blockquote "this")
-                  (:blockquote "that"))
+                  (:header
+                   (:h2.title w-text)
+                   (:span.subtext ("used ~a times" freq))
+                   (:span.icon-close))
 
-                 (:div.labeled-quote
-                  (:label "Article")
-                  (:blockquote "The")))
-                (:footer
-                 (:span.subtext "used as")
-                 (:span "die, das, den")
-                 (:span.subtext "in the article."))))))))
+                  (:section.translations
+                   (dolist (bw bank-words)
+                     (:div.labeled-quote
+                      (:label (bank-word-type bw))
+                      (dolist (trans (bank-word-translations bw))
+                        (:blockquote trans)))))
+
+                  (:footer
+                   (:span.subtext "used as")
+                   (:span ("~{~a~^, ~}" (mapcar #'word-text nlp-words)))
+                   (:span.subtext "in the article.")))))))))

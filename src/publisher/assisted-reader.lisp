@@ -45,7 +45,8 @@
     (let* ((learner-view
              (make 'word-learner-w
                    :title "Learn words used in article"
-                   :word-freq (nach-article-word-freq article)))
+                   :word-freq (nach-article-word-freq article)
+                   :word-bank (slot-value pub 'word-bank)))
            (root (make 'reader-page-w
                        :content-w learner-view
                        :nav-links nav-links
