@@ -21,38 +21,25 @@
   (declare (nachtrichtenleicht-article article))
 
   (let* ((title (if (str:emptyp title) (nacht-article-title article) title))
-         (slug (if (str:emptyp slug) (slug:slugify title) slug))
-         (nav-links `(("Read" ,(base-path-join base-url slug))
-                      ("Prepare" ,(base-path-join base-url slug "/prepare")))))
+         (slug (if (str:emptyp slug) (slug:slugify title) slug)))
 
     (let* ((article-view
              (make 'article-w
                    :title (nlp-words (nacht-article-title article))
                    :description (nlp-words (nacht-article-description article))
                    :content (mapcar #'nlp-words (nacht-article-content article))
+                   :word-bank (slot-value pub 'word-bank)
                    :featured-image (let ((fig (nacht-article-featured-image article)))
                                      (list (first fig) (nlp-words (second fig))))))
-           (root (make 'reader-page-w
-                       :content-w article-view
-                       :nav-links nav-links
-                       :active-nav-index 0))
-           (html-path (base-path-join slug "/index.html")))
-      (call-next-method
-       pub
-       :page-builder (page-builder title)
-       :root-widget root
-       :path html-path))
-
-    (let* ((learner-view
+           (learner-view
              (make 'word-learner-w
                    :title "Learn words used in article"
                    :word-freq (nach-article-word-freq article)
                    :word-bank (slot-value pub 'word-bank)))
            (root (make 'reader-page-w
-                       :content-w learner-view
-                       :nav-links nav-links
-                       :active-nav-index 1))
-           (html-path (base-path-join slug "prepare/index.html")))
+                       :article-w article-view
+                       :word-learner-w learner-view))
+           (html-path (base-path-join slug "/index.html")))
       (call-next-method
        pub
        :page-builder (page-builder title)

@@ -1,6 +1,6 @@
 (in-package #:in.bitspook.vidhi)
 
-(defwidget reader-page-w (content-w active-nav-index nav-links)
+(defwidget reader-page-w (article-w word-learner-w)
     (tagged-lass
      base-lass
      `((.container :max-width (var --width-md)
@@ -25,14 +25,38 @@
               (.active
                :background-color (var --color-grey-200)
 
-               (a :font-weight (var --weight-bold))))))
+               (a :font-weight (var --weight-bold))))
+       (.word-learner :height 0 :overflow hidden)))
 
   (:div.container
+   (:script
+    (:raw
+     (ps
+       (defparameter *sections* '("article" "word-learner"))
+
+       (defun show-section (el)
+         (ps:chain (ps:chain document (query-selector "li.active"))
+                   class-list (remove "active"))
+         (ps:chain el class-list (add "active"))
+
+         (labels ((section-el (sec) (ps:chain document (query-selector (+ "." sec)))))
+           (let ((section (ps:chain el dataset section)))
+             (setf (ps:chain (section-el section) style height) "auto")
+
+             (loop :for sec :in *sections*
+                   :unless (= sec section)
+                     :do (setf (ps:chain (section-el sec) style height) 0)
+                         (setf (ps:chain (section-el sec) style overflow) "hidden"))))))))
+
    (:nav.menu
     (:ul
-     (loop :for index := (1+ (or index -1))
-           :for link :in nav-links
-           :do (:li :class (when (eq index active-nav-index) "active")
-                    (:a :href (second link) (first link) )))))
+     (:li.active
+      :data-section "article"
+      :onclick "showSection(this)"
+      "Read")
+     (:li :data-section "word-learner"
+          :onclick "showSection(this)"
+          "Prepare")))
 
-   (render content-w)))
+   (:section.article (render article-w))
+   (:section.word-learner (render word-learner-w))))

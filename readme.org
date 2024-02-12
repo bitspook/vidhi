@@ -1,3 +1,5 @@
 * Vidhi
 
-Methodically teach me German.
+Teaching myself German.
+
+Very wip app to help me learning German.
