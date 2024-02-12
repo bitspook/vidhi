@@ -2,4 +2,5 @@
 
 Teaching myself German.
 
-Very wip app to help me learning German.
+Very wip app to help me learning German. You can follow progress and check demoes etc in [[https://infosec.exchange/@bitspook/111920883536016282][this
+mastodon thread]].
