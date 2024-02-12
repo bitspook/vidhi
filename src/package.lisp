@@ -11,7 +11,7 @@
    :denote-provider)
   (:import-from #:spinneret :with-html)
   (:import-from #:in.bitspook.vidhi/nlp
-   :nlp-lemma-freq :word-alpha-p :word-lemma :word-text)
+   :nlp-words :nlp-lemma-freq :word-alpha-p :word-lemma :word-text)
   (:import-from #:parenscript :ps)
   (:local-nicknames (:yason :yason)))
 

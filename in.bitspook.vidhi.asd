@@ -14,6 +14,7 @@
                   :components ((:file "package")))
 
                  (:file "package")
+                 (:file "word-bank")
 
                  (:file "nachrichtenleicht")
 

@@ -27,10 +27,11 @@
 
     (let* ((article-view
              (make 'article-w
-                   :title (nacht-article-title article)
-                   :description (nacht-article-description article)
-                   :content (nacht-article-content article)
-                   :featured-image (nacht-article-featured-image article)))
+                   :title (nlp-words (nacht-article-title article))
+                   :description (nlp-words (nacht-article-description article))
+                   :content (mapcar #'nlp-words (nacht-article-content article))
+                   :featured-image (let ((fig (nacht-article-featured-image article)))
+                                     (list (first fig) (nlp-words (second fig))))))
            (root (make 'reader-page-w
                        :content-w article-view
                        :nav-links nav-links

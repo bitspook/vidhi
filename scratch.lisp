@@ -8,7 +8,7 @@
 
 (defparameter *base-dir* (asdf:system-relative-pathname :in.bitspook.vidhi ""))
 
-(defparameter *article* (fetch-nacht-article "https://www.nachrichtenleicht.de/streiks-in-deutschland-106.html"))
+(defparameter *article* (fetch-nacht-article "https://www.nachrichtenleicht.de/junge-alternative-104.html"))
 
 (defparameter *word-bank*
   (load-word-bank (base-path-join *base-dir* "src/static/data/frequent-words.json")))
