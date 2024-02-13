@@ -17,7 +17,7 @@
                 (:script :src "/js/app.js"))
          (:body (:raw html))))))
 
-(defmethod publish ((pub assisted-reader-publisher) &key article title (slug "") (base-url "/"))
+(defmethod publish ((pub assisted-reader-publisher) &key article title (slug ""))
   (declare (nachtrichtenleicht-article article))
 
   (let* ((title (if (str:emptyp title) (nacht-article-title article) title))
@@ -29,6 +29,7 @@
                    :description (nlp-words (nacht-article-description article))
                    :content (mapcar #'nlp-words (nacht-article-content article))
                    :word-bank (slot-value pub 'word-bank)
+                   :audio (nacht-article-audio article)
                    :featured-image (let ((fig (nacht-article-featured-image article)))
                                      (list (first fig) (nlp-words (second fig))))))
            (learner-view
