@@ -13,27 +13,30 @@
 (defparameter *word-bank*
   (load-word-bank (base-path-join *base-dir* "src/static/data/frequent-words.json")))
 
+(defparameter *artifact* nil)
+
 (defun build ()
   (let* ((www (path-join *base-dir* "docs/"))
          (static (path-join *base-dir* "src/static/"))
-         (*print-pretty* t)
-         (asset-pub (make 'asset-publisher :dest www)))
+         (*print-pretty* t))
 
     (uiop:delete-directory-tree www :validate t :if-does-not-exist :ignore)
 
-    (publish asset-pub :content static)
+    (publish-static :dest-dir www :content static)
 
-    (let* ((assisted-reader-pub
-             (make 'assisted-reader-publisher
-                   :dest www
-                   :word-bank *word-bank*
-                   :asset-pub asset-pub)))
-      (publish assisted-reader-pub :article *article*))
-    t))
+    (setf *artifact*
+      (make-assisted-reader
+       :word-bank *word-bank*
+       :article *article*))
+
+    (publish *artifact* :dest-dir www)))
 
 (build)
-;; setup py4cl to work with poetry env
 
+(artifact-location *artifact*)
+
+;; setup py4cl to work with poetry env
+(ql:quickload "py4cl")
 (setf py4cl:*python-command* "/Users/charanjit.singh/Library/Caches/pypoetry/virtualenvs/vidhi-91ierX8q-py3.11/bin/python")
 ;; Need to stop py4cl's python process if we make changes to vidhi python package
 

@@ -6,8 +6,7 @@
                :clss :plump
                :py4cl
                :parenscript
-               :in.bitspook.cl-ownpress
-               :in.bitspook.website)
+               :in.bitspook.cl-ownpress)
   :components ((:module "src"
                 :components
                 ((:module "nlp"
@@ -25,12 +24,10 @@
 
                  (:module "widgets"
                   :components ((:file "simple-exercise")
-                               (:file "demo-page")
                                (:file "reader-page")
                                (:file "word-learner")
                                (:file "article")))
 
-                 (:module "publisher"
-                  :components ((:file "page")
-                               (:file "assisted-reader"))))))
+                 (:module "artifacts"
+                  :components ((:file "assisted-reader"))))))
   :description "Help me methodically learn German.")
