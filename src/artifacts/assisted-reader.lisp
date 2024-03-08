@@ -1,6 +1,10 @@
 (in-package #:in.bitspook.vidhi)
 
-(defun page-builder (title &key)
+(defclass assisted-reader (html-page-artifact)
+  ((article :initarg :article)
+   (word-bank :initarg :word-bank)))
+
+(defun reader-page-builder (title &key)
   (lambda (&key css body-html)
     (declare (css-file-artifact css))
     (spinneret:with-html
@@ -35,10 +39,12 @@
                        :article-w article-view
                        :word-learner-w learner-view)))
 
-      (make 'html-page-artifact
+      (make 'assisted-reader
             :deps (list (make 'css-file-artifact
                               :location "/css/style.css"
                               :root-widget root))
-            :builder (page-builder title)
+            :builder (reader-page-builder title)
             :root-widget root
-            :location html-path))))
+            :location html-path
+            :article article
+            :word-bank word-bank))))

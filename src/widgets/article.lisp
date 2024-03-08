@@ -28,7 +28,6 @@
     (tagged-lass
      base-lass
      `((.content :margin (var --scale-6) 0
-                 :color (var --color-grey-600)
                  :font-size (var --scale-1)
                  :line-height (var --line-md)
                  :padding-bottom (var --scale-10))
