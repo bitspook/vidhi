@@ -8,7 +8,7 @@
 
 (defparameter *base-dir* (asdf:system-relative-pathname :in.bitspook.vidhi ""))
 
-(defparameter *article* (fetch-nacht-article "https://www.nachrichtenleicht.de/junge-alternative-104.html"))
+(defparameter *articles* (fetch-latest-nacht-articles 20))
 
 (defparameter *word-bank*
   (load-word-bank (base-path-join *base-dir* "src/static/data/frequent-words.json")))
@@ -25,15 +25,13 @@
     (publish-static :dest-dir www :content static)
 
     (setf *artifact*
-      (make-assisted-reader
-       :word-bank *word-bank*
-       :article *article*))
+          (make-home-page
+           :word-bank *word-bank*
+           :articles *articles*))
 
-    (publish *artifact* :dest-dir www)))
+    (publish-artifact *artifact* :dest-dir www)))
 
 (build)
-
-(artifact-location *artifact*)
 
 ;; setup py4cl to work with poetry env
 (ql:quickload "py4cl")

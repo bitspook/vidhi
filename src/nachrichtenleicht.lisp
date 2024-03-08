@@ -4,6 +4,9 @@
   ((title
     :initarg :title
     :accessor nacht-article-title)
+   (origin
+    :initarg :origin
+    :accessor nacht-article-origin)
    (description
     :initarg :description
     :accessor nacht-article-description)
@@ -58,6 +61,8 @@
          (caption (plump:text (aref (clss:select "figcaption" figure) 0))))
     (list img caption)))
 
+(defparameter *nach-base-url* "https://www.nachrichtenleicht.de")
+
 (defun fetch-nacht-article (url)
   (let* ((resp (dex:get url))
          (page (plump:parse resp))
@@ -65,12 +70,45 @@
          (header (aref (clss:select "header" article) 0)))
     (make 'nachtrichtenleicht-article
           :title (plump:text (aref (clss:select "title" page) 0))
+          :origin url
           :description (extract-description header)
           :published-on (extract-publish-date header)
           :audio (extract-audio header)
           :featured-image (extract-featured-image article)
           :content (extract-content article)
           :new-words (extract-new-words article))))
+
+(defun fetch-latest-nacht-articles (count)
+  "Fetch latest COUNT articles from nachtrichtenleicht.
+We pull `COUNT/n' latest articles for each of `n' article types. This strategy means it is possible
+that all COUNT articles aren't latest. But that is not a problem because nachrichtenleicht.de
+publish new articles weekly, and not in large amount."
+  (declare (integer count))
+  (labels ((article-listing-api-url (article-type &key (count 10) (offset 0))
+             ;; API with pagination support which return listing with articles of a given type
+             (format nil "https://www.nachrichtenleicht.de/api/partials/PaginatedArticles_NL?drsearch%3AcurrentItems=~d&drsearch%3AitemsPerLoad=~d&drsearch%3ApartialProps={\"sophoraId\"%3A~s}&drsearch%3A_ajax=1"
+                     offset count article-type))
+           (listing-links (listing-url)
+             (let* ((page (plump:parse (dex:get listing-url)))
+                    (article-a-nodes (clss:select "article.b-teaser-wide > a" page)))
+               (map 'list (op (plump:get-attribute _ "href")) article-a-nodes))))
+    (let* ((base-url *nach-base-url*)
+           (home-page (plump:parse (dex:get base-url)))
+           ;; article types are obtained from links to 'article type page'
+           (article-types (map 'list
+                               (op (nsubseq
+                                    (str:replace-first
+                                     ".html" ""
+                                     (nth-value 4 (quri:parse-uri (plump:get-attribute _ "href"))))
+                                    1))
+                               (clss:select ".navigation-menu-link" home-page)))
+           (count-per-type (ceiling (/ count (length article-types))))
+           (article-listing-urls
+             (mapcar
+              (op (article-listing-api-url _ :count count-per-type))
+              article-types))
+           (article-urls (apply #'concatenate 'list (mapcar #'listing-links article-listing-urls))))
+      (mapcar #'fetch-nacht-article article-urls))))
 
 (defun nach-article-word-freq (article)
   "Get word-frequency for all words from ARTICLE.
