@@ -7,7 +7,7 @@
       (:html
        (:head (:title title)
               (:meta :name "viewport" :content "width=device-width, initial-scale=1")
-              (when css (:link :rel "stylesheet" :href (artifact-location css))))
+              (when css (:link :rel "stylesheet" :href (embed-artifact-as css 'link))))
        (:body (:raw body-html))))))
 
 (defun make-home-page (&key word-bank articles (title ""))

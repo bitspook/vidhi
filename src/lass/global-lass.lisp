@@ -1,53 +1,69 @@
 (in-package #:in.bitspook.vidhi)
 
 (defparameter font-lass
-  '((@font-face
-     :font-family "Fira Sans"
-     :src "url('/fonts/firasans-thin-webfont.woff2') format('woff2'), url('/fonts/firasans-thin-webfont.woff') format('woff')"
-     :font-weight 300
-     :font-style normal)
+  (concatenate
+   'list
+   (mapcar (op (embed-artifact-as _ 'font-face :family "Fira Sans"))
+           (list
+            (make-font-artifact
+             :files (mapcar (op (base-path-join *fonts-dir* _))
+                            '("firasans-thin-webfont.woff2"
+                              "firasans-thin-webfont.woff"))
+             :weight 300
+             :style 'normal)
 
-    (@font-face
-     :font-family "Fira Sans"
-     :src "url('/fonts/firasans-thinitalic-webfont.woff2') format('woff2'), url('/fonts/firasans-thinitalic-webfont.woff') format('woff')"
-     :font-weight 300
-     :font-style italic)
+            (make-font-artifact
+             :files (mapcar
+                     (op (base-path-join *fonts-dir* _))
+                     '("firasans-thinitalic-webfont.woff2" "firasans-thinitalic-webfont.woff"))
+             :weight 300
+             :style 'italic)
 
-    (@font-face
-     :font-family "Alfa Slab One"
-     :src "url('/fonts/alfaslabone-regular-webfont.woff2') format('woff2'), url('/fonts/alfaslabone-regular-webfont.woff') format('woff')"
-     :font-weight 400
-     :font-style normal)
+            (make-font-artifact
+             :files (mapcar
+                     (op (base-path-join *fonts-dir* _))
+                     '("firasans-bold-webfont.woff2" "firasans-bold-webfont.woff"))
+             :weight 700
+             :style 'bold)
 
-    (@font-face
-     :font-family "Fira Sans"
-     :src "url('/fonts/firasans-bold-webfont.woff2') format('woff2'), url('/fonts/firasans-bold-webfont.woff') format('woff')"
-     :font-weight 700
-     :font-style bold)
+            (make-font-artifact
+             :files (mapcar
+                     (op (base-path-join *fonts-dir* _))
+                     '("firasans-heavy-webfont.woff2" "firasans-heavy-webfont.woff"))
+             :weight 800
+             :style 'bold)
 
-    (@font-face
-     :font-family "Fira Sans"
-     :src "url('/fonts/firasans-heavy-webfont.woff2') format('woff2'), url('/fonts/firasans-heavy-webfont.woff') format('woff')"
-     :font-weight 800
-     :font-style bold)
+            (make-font-artifact
+             :files (mapcar
+                     (op (base-path-join *fonts-dir* _))
+                     '("firasans-heavyitalic-webfont.woff2" "firasans-heavyitalic-webfont.woff"))
+             :weight 700
+             :style 'italic)
 
-    (@font-face
-     :font-family "Fira Sans"
-     :src "url('/fonts/firasans-heavyitalic-webfont.woff2') format('woff2'), url('/fonts/firasans-heavyitalic-webfont.woff') format('woff')"
-     :font-weight 700
-     :font-style italic)
+            (make-font-artifact
+             :files (mapcar
+                     (op (base-path-join *fonts-dir* _))
+                     '("firasans-italic-webfont.woff2" "firasans-italic-webfont.woff"))
+             :weight 400
+             :style 'italic)
 
-    (@font-face
-     :font-family "Fira Sans"
-     :src "url('/fonts/firasans-italic-webfont.woff2') format('woff2'), url('/fonts/firasans-italic-webfont.woff') format('woff')"
-     :font-weight 400
-     :font-style italic)
+            (make-font-artifact
+             :files (mapcar
+                     (op (base-path-join *fonts-dir* _))
+                     '("firasans-regular-webfont.woff2" "firasans-regular-webfont.woff"))
+             :weight 400
+             :style 'normal)))
 
-    (@font-face
-     :font-family "Fira Sans"
-     :src "url('/fonts/firasans-regular-webfont.woff2') format('woff2'), url('/fonts/firasans-regular-webfont.woff') format('woff')"
-     :font-weight 400
-     :font-style normal)))
+   (list (embed-artifact-as
+          (make-font-artifact
+           :files (mapcar
+                   (op (base-path-join *fonts-dir* _))
+                   '("alfaslabone-regular-webfont.woff2"
+                     "alfaslabone-regular-webfont.woff"))
+           :weight 400
+           :style 'normal)
+          'font-face
+          :family "Alfa Slab One"))))
 
 (defparameter global-css-vars
   '(:--font-text "Fira Sans"

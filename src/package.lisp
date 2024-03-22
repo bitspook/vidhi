@@ -2,9 +2,10 @@
   (:use #:cl #:serapeum/bundle)
   (:import-from #:in.bitspook.cl-ownpress
    :defwidget :tagged-lass :lass-of :dom-of :render
-
    :artifact-content :artifact-location :artifact-deps :css-file-artifact
-   :html-page-artifact :publish-static :publish-artifact :all-deps)
+   :html-page-artifact :all-deps :link :embed-artifact-as :*base-url*
+   :font-artifact :make-font-artifact :font-face
+   :publish-static :publish-artifact :file-already-exists :skip-existing)
   (:import-from #:in.bitspook.cl-ownpress/provider :provide-all)
   (:import-from #:spinneret :with-html)
   (:import-from #:in.bitspook.vidhi/nlp
@@ -13,3 +14,6 @@
   (:local-nicknames (:yason :yason)))
 
 (in-package #:in.bitspook.vidhi)
+
+(defparameter *fonts-dir*
+  (asdf:system-relative-pathname "in.bitspook.vidhi" "src/fonts/"))

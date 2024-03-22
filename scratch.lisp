@@ -7,6 +7,7 @@
     (provide-all notes-provider "german")))
 
 (defparameter *base-dir* (asdf:system-relative-pathname :in.bitspook.vidhi ""))
+(setf *base-url* "/vidhi")
 
 (defparameter *articles* (fetch-latest-nacht-articles 20))
 
@@ -15,8 +16,10 @@
 
 (defparameter *artifact* nil)
 
+(setf *base-url* "/vidhi")
+
 (defun build ()
-  (let* ((www (path-join *base-dir* "docs/"))
+  (let* ((www (path-join *base-dir* "build/vidhi/"))
          (static (path-join *base-dir* "src/static/"))
          (*print-pretty* t))
 
@@ -39,7 +42,6 @@
 ;; Need to stop py4cl's python process if we make changes to vidhi python package
 
 (py4cl:python-stop)
-
 
 ;; quick hack to auto-build
 ;; elisp
