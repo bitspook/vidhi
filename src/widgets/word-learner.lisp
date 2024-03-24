@@ -48,7 +48,7 @@
         :background-repeat no-repeat
         :background-size contain
         :cursor pointer
-        :background-image (url "/icons/close.svg")
+        :background-image (url ,(namestring (base-path-join *base-url* "/icons/close.svg")))
         :margin (var --scale-2))
 
 

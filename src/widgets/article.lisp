@@ -13,20 +13,19 @@
         :cursor pointer
         :border-bottom-color (var --color-grey-400))))
 
-    (dolist (word sentence)
-      (let ((bw (@ word-bank (word-lemma word))))
-        (if (equal "--" (word-lemma word))
-            (:span (word-text word))
-            (:span.text-word
-             :title (unless bw "No translations 😭")
-             :class (when bw "has-meaning")
-             :onclick (if bw "showWordModal(this)")
-             :data-lemma (word-lemma word)
-             (word-text word))))))
+  (dolist (word sentence)
+    (let ((bw (@ word-bank (word-lemma word))))
+      (if (equal "--" (word-lemma word))
+          (:span (word-text word))
+          (:span.text-word
+           :title (unless bw "No translations 😭")
+           :class (when bw "has-meaning")
+           :onclick (if bw "showWordModal(this)")
+           :data-lemma (word-lemma word)
+           (word-text word))))))
 
 (defwidget article-w (title description content featured-image audio word-bank)
     (tagged-lass
-     (base-lass)
      `((.content :margin (var --scale-6) 0
                  :font-size (var --scale-1)
                  :line-height (var --line-md)
