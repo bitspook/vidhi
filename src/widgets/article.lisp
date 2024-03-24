@@ -26,7 +26,7 @@
 
 (defwidget article-w (title description content featured-image audio word-bank)
     (tagged-lass
-     base-lass
+     (base-lass)
      `((.content :margin (var --scale-6) 0
                  :font-size (var --scale-1)
                  :line-height (var --line-md)

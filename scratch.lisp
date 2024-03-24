@@ -9,14 +9,12 @@
 (defparameter *base-dir* (asdf:system-relative-pathname :in.bitspook.vidhi ""))
 (setf *base-url* "/vidhi")
 
-(defparameter *articles* (fetch-latest-nacht-articles 20))
+(defparameter *articles* (fetch-latest-nacht-articles 10))
 
 (defparameter *word-bank*
   (load-word-bank (base-path-join *base-dir* "src/static/data/frequent-words.json")))
 
 (defparameter *artifact* nil)
-
-(setf *base-url* "/vidhi")
 
 (defun build ()
   (let* ((www (path-join *base-dir* "build/vidhi/"))
@@ -32,7 +30,7 @@
            :word-bank *word-bank*
            :articles *articles*))
 
-    (publish-artifact *artifact* :dest-dir www)))
+    (publish-artifact *artifact* www)))
 
 (build)
 

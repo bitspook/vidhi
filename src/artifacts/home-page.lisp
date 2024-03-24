@@ -13,21 +13,12 @@
 (defun make-home-page (&key word-bank articles (title ""))
   (let* ((title (if (str:emptyp title) "Vidhi" title))
          (slug "/")
-         (html-path (base-path-join slug "/index.html")))
+         (html-path (base-path-join slug "/index.html"))
+         (readers (mapcar
+                   (op (make-assisted-reader
+                        :word-bank word-bank
+                        :article _))
+                   articles))
+         (root (make 'home-page-w :readers readers)))
 
-    (let* ((readers (mapcar
-                     (op (make-assisted-reader
-                          :word-bank word-bank
-                          :article _))
-                     articles))
-
-           (root (make 'home-page-w :readers readers)))
-      (make 'html-page-artifact
-            :deps (append1
-                   readers
-                   (make 'css-file-artifact
-                         :location "/css/styles.css"
-                         :root-widget root))
-            :builder (home-page-builder title)
-            :root-widget root
-            :location html-path))))
+    (make-html-page-artifact html-path (home-page-builder title) root)))

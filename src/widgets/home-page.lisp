@@ -2,7 +2,7 @@
 
 (defwidget home-page-w (readers)
     (tagged-lass
-     base-lass
+     (base-lass)
      `((.container :max-width (var --width-md)
                    :margin 0 auto
                    :padding 0 (var --size-4))

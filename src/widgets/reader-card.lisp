@@ -25,7 +25,7 @@
    (with-slots (article) reader
      (with-accessors ((featured-img nacht-article-featured-image)) article
        (:a
-        :href (artifact-location reader)
+        :href (embed-artifact-as reader 'link)
         (:div.featured-img :style (format nil "background-image: url(~a)" (car featured-img)))
         (:p.title
          (nacht-article-title article)))))))
